@@ -28,6 +28,7 @@ export default function Application() {
   let dailyAppointments = [];
   if (Object.keys(state.appointments).length !== 0) {
     dailyAppointments = getAppointmentsForDay(state, state.day);
+    console.log('')
   }
   
   useEffect(() => {
@@ -67,15 +68,13 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map(appointment => {
+        {dailyAppointments.map((appointment, index) => {
           const interview = getInterview(state, appointment.interview)
-
-          console.log('interview: ', interview)
 
           return (
             <Appointment 
-              key={appointment.id}
               {...appointment}
+              key={index}
               interview={interview}
             />
           )
