@@ -5,7 +5,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import { useState } from "react";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 
 
@@ -26,9 +26,10 @@ export default function Application() {
   const setInterviewers = interviewers => setState(prev => ({...prev, interviewers}));
   
   let dailyAppointments = [];
+  let interviewersForDay = [];
   if (Object.keys(state.appointments).length !== 0) {
     dailyAppointments = getAppointmentsForDay(state, state.day);
-    console.log('')
+    interviewersForDay = getInterviewersForDay(state, state.day);
   }
   
   useEffect(() => {
@@ -76,6 +77,7 @@ export default function Application() {
               {...appointment}
               key={index}
               interview={interview}
+              interviewers={interviewersForDay}
             />
           )
         })}

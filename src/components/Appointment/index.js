@@ -14,13 +14,18 @@ const CREATE = "CREATE";
 // const DELETING = "DELETING"
   
 function Appointment(props) {
-
-  // console.log(props)
   
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  console.log(mode)
+  React.useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+      transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+      transition(EMPTY);
+    }
+  }, [props.interview, transition, mode]);
   return (
     <article className="appointment">
       <Header time={props.time}/>
@@ -33,10 +38,10 @@ function Appointment(props) {
       )}
       {mode === CREATE && (
         <Form
-        student={props.student}
-        interviewers={[]}
-        onSave={() => transition(SHOW)}
-        onCancel={() => back()}
+          student={props.student}
+          interviewers={props.interviewers}
+          onSave={() => transition(SHOW)}
+          onCancel={() => back()}
         />
       )}
       
