@@ -18,8 +18,11 @@ export default function Application() {
     appointments:{},
     interviewers: {}
   })
-  
-  const setDay = day => setState({...state, day});
+
+  const setDay = day => {
+    console.log('day: ', day)
+    setState(prev => ({...prev, day}))
+  };
   const setDays = days => setState(prev => ({...prev, days}));
   const setAppointments = appointments => setState(prev => ({...prev, appointments}));
   const setInterviewers = interviewers => setState(prev => ({...prev, interviewers}));
@@ -44,6 +47,10 @@ export default function Application() {
     })
     .catch(err => console.log(err))
   }, [])
+
+  useEffect(() => {
+    console.log('state: ',state)
+  }, [state])
 
   function bookInterview(id, interview) {
     console.log('id, interview: ',id, interview)
