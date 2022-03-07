@@ -18,7 +18,6 @@ export default function Application() {
     appointments:{},
     interviewers: {}
   })
-  // console.log('state.interviewers', state.interviewers)
   
   const setDay = day => setState({...state, day});
   const setDays = days => setState(prev => ({...prev, days}));
@@ -45,6 +44,23 @@ export default function Application() {
     })
     .catch(err => console.log(err))
   }, [])
+
+  function bookInterview(id, interview) {
+    console.log('id, interview: ',id, interview)
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    const promise = axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+      .then(setState({...state, appointments}))
+      .catch(err => console.log(err));
+    
+    return promise;
+  }
 
   return (
     <main className="layout">
@@ -78,6 +94,7 @@ export default function Application() {
               key={index}
               interview={interview}
               interviewers={interviewersForDay}
+              bookInterview={bookInterview}
             />
           )
         })}
