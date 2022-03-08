@@ -1,16 +1,15 @@
 import { useState } from 'react';
 
 export default function useVisualMode(initialMode) {
-  // console.log('IN useVisual... initial mode: ', initialMode)
 
   const [mode, setMode] = useState(initialMode);
-  // console.log('IN useVisual... mode after useState: ', mode)
   const [history, setHistory] = useState([initialMode]);
 
   const transition = (newMode, replace = false) => {
     setMode(newMode);
-    (replace === true && history.pop())
+    (replace && history.pop())
     setHistory([...history, newMode])
+    console.log('transitioned to ', newMode)
   };
 
   const back = () => {

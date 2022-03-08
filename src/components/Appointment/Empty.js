@@ -7,9 +7,7 @@ function Empty(props) {
     className="appointment__add-button"
     src="images/add.png"
     alt="Add"
-    // onClick={() => console.log('Clicking')}
     onClick={() => props.onAdd()}
-    // onClick='onClick'
   />
 </main>
   )

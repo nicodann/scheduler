@@ -25,10 +25,8 @@ export function getInterview(state, interview) {
 export function getInterviewersForDay(state, day) {
   let interviewerIDArray = []
   const matchingDay = state.days.filter(weekDay => weekDay.name === day)
-  // console.log('matching day: ', matchingDay)
   if (matchingDay.length !== 0) {
     interviewerIDArray = matchingDay[0].interviewers
-    // console.log("interviewrIDArray: ", interviewerIDArray)
   }
   
   const interviewersArray = interviewerIDArray.map(id => state.interviewers[id])

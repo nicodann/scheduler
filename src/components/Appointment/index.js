@@ -3,13 +3,14 @@ import 'components/Appointment/styles.scss';
 import Header from 'components/Appointment/Header.js';
 import Show from './Show';
 import Empty from './Empty';
-import Form from './Form'
+import Form from './Form';
+import Status from './Status';
 import useVisualMode from 'hooks/useVisualMode';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
-// const SAVING = "SAVING";
+const SAVING = "SAVING";
 // const CONFIRM = "CONFIRM";
 // const DELETING = "DELETING"
   
@@ -20,13 +21,14 @@ function Appointment(props) {
     );
 
   useEffect(() => {
+    console.log('mode: ', mode)
     if (props.interview && mode === EMPTY) {
       transition(SHOW);
     }
     if (props.interview === null && mode === SHOW) {
       transition(EMPTY);
     }
-  }, [props.interview, transition, mode]);
+  }, [props.interview, transition, mode ]);
 
   
   function save(name, interviewer) {
@@ -34,9 +36,12 @@ function Appointment(props) {
       student: name,
       interviewer
     };
-    props.bookInterview(props.id, interview)
-      .then(transition(SHOW))
+
+    transition(SAVING);
+    
+    props.bookInterview(props.id, interview, () => transition(SHOW))
   };
+  
   return (
     <article className="appointment">
       <Header time={props.time}/>
@@ -54,6 +59,9 @@ function Appointment(props) {
           onSave={save}
           onCancel={() => back()}
         />
+      )}
+      {mode === SAVING && (
+        <Status />
       )}
       
     </article>

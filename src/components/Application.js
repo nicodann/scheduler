@@ -17,12 +17,9 @@ export default function Application() {
     days:[],
     appointments:{},
     interviewers: {}
-  })
+  });
 
-  const setDay = day => {
-    console.log('day: ', day)
-    setState(prev => ({...prev, day}))
-  };
+  const setDay = day => setState(prev => ({...prev, day}));
   const setDays = days => setState(prev => ({...prev, days}));
   const setAppointments = appointments => setState(prev => ({...prev, appointments}));
   const setInterviewers = interviewers => setState(prev => ({...prev, interviewers}));
@@ -48,12 +45,11 @@ export default function Application() {
     .catch(err => console.log(err))
   }, [])
 
-  useEffect(() => {
-    console.log('state: ',state)
-  }, [state])
+  // useEffect(() => {
+  //   console.log('state: ',state)
+  // }, [state])
 
-  function bookInterview(id, interview) {
-    console.log('id, interview: ',id, interview)
+  function bookInterview(id, interview, cb) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -62,12 +58,21 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment
     };
-    const promise = axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
-      .then(setState({...state, appointments}))
+
+    axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
+      .then(response => {
+        if (response.status === 204) {
+          setState(prev => ({...prev, appointments}))
+        }
+      })
+      .then(() => {
+        console.log('the API has been updated')
+        cb()
+      })
       .catch(err => console.log(err));
-    
-    return promise;
   }
+
+  const
 
   return (
     <main className="layout">
@@ -111,50 +116,3 @@ export default function Application() {
     </main>
   );
 }
-
-// const interviewers = [
-//   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-//   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-//   { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-//   { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-//   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-// ];
-
-// const appointments = {
-//   "1": {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   "2": {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer:{
-//         id: 3,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   "3": {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   "4": {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Archie Andrews",
-//       interviewer:{
-//         id: 4,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   },
-//   "5": {
-//     id: 5,
-//     time: "4pm",
-//   }
-// };
