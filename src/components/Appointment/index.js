@@ -6,6 +6,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 import useVisualMode from 'hooks/useVisualMode';
 
 const EMPTY = "EMPTY";
@@ -20,7 +21,6 @@ const ERROR_DELETE = "ERROR_DELETE";
   
 function Appointment({interview, 
                       interviewers, 
-                      student, 
                       id, 
                       bookInterview, 
                       cancelInterview, 
@@ -40,25 +40,23 @@ function Appointment({interview,
     }
   }, [interview, transition, mode ]);
 
-  
+  //SAVE APPOINTMENT FUNCTION
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
-
     transition(SAVING);
-    
-    bookInterview(id, interview, () => transition(SHOW), () => transition(ERROR_SAVE))
+    bookInterview(id, interview, () => transition(SHOW), () => transition(ERROR_SAVE, true))
   };
 
+  //DELETE APPOINTMENT FUNCTION
   function deleteApp() {
-    console.log('delete App')
-    transition(DELETING)
-    cancelInterview(id, () => transition(EMPTY), () => transition(ERROR_DELETE));
-
+    transition(DELETING, true)
+    cancelInterview(id, () => transition(EMPTY), () => transition(ERROR_DELETE, true));
   }
 
+  //COMPONENT VARIABLES
   const renderHeader = (
     <Header time={time}/>
   )
@@ -90,7 +88,10 @@ function Appointment({interview,
     <Confirm onCancel={back} onConfirm={deleteApp}/>
   )
 
-  const renderStatus = (<Status/>)
+  const renderStatus = (<Status />)
+
+  const renderError = (<Error onClose={back} />)
+
   return (
     <article className="appointment">
       {renderHeader}
@@ -100,6 +101,7 @@ function Appointment({interview,
       {mode === CONFIRM && renderConfirm}
       {(mode === SAVING || mode === DELETING) && renderStatus}
       {mode === EDIT && renderForm}
+      {(mode === ERROR_SAVE || mode === ERROR_DELETE) && renderError}
     </article>
   )
   

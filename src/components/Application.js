@@ -69,7 +69,10 @@ export default function Application() {
         console.log('the API has been updated')
         cbSAVE()
       })
-      .catch(() => cbERROR);
+      .catch(() => {
+        console.log('error')
+        cbERROR()
+      });
   }
 
   function cancelInterview(id, cbSAVE, cbERROR) {
