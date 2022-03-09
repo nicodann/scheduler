@@ -49,36 +49,45 @@ function Appointment(props) {
     props.cancelInterview(props.id, () => transition(EMPTY));
 
   }
-  
+
+  const renderHeader = (
+    <Header time={props.time}/>
+  )
+
+  const renderEmpty = (
+    <Empty onAdd={() => transition(CREATE)}/>
+  )
+
+  const renderShow = (
+    <Show 
+      student={props.interview && props.interview.student} 
+      interviewer={props.interview && props.interview.interviewer}
+      confirmDelete={() => transition(CONFIRM)}
+    />
+  )
+
+  const renderForm =  (
+    <Form
+      student={props.student}
+      interviewers={props.interviewers}
+      onSave={save}
+      onCancel={() => back()}
+    />
+  )
+
+  const renderConfirm = (
+    <Confirm onCancel={back} onConfirm={deleteApp}/>
+  )
+
+  const renderStatus = (<Status/>)
   return (
     <article className="appointment">
-      <Header time={props.time}/>
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}/>}      
-      {mode === SHOW && (
-        <Show 
-          student={props.interview && props.interview.student} 
-          interviewer={props.interview && props.interview.interviewer}
-          confirmDelete={() => transition(CONFIRM)}
-        />
-      )}
-      {mode === CREATE && (
-        <Form
-          student={props.student}
-          interviewers={props.interviewers}
-          onSave={save}
-          onCancel={() => back()}
-        />
-      )}
-      {mode === SAVING && (
-        <Status />
-      )}
-      {mode === CONFIRM && (
-        <Confirm onCancel={back} onConfirm={deleteApp}/>
-      )}
-      {mode === DELETING && (
-        <Status />
-      )}
-      
+      {renderHeader}
+      {mode === EMPTY && renderEmpty}      
+      {mode === SHOW && renderShow}
+      {mode === CREATE && renderForm}
+      {mode === CONFIRM && renderConfirm}
+      {(mode === SAVING || mode === DELETING) && renderStatus}
     </article>
   )
   
