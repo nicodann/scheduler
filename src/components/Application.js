@@ -68,7 +68,7 @@ export default function Application() {
         return response;
       })
   }
-  
+
   //DELETE APPOINTMENT
   function cancelInterview(id) {
     const appointment = {
@@ -90,7 +90,22 @@ export default function Application() {
   }
 
 
+  const renderAppointments = dailyAppointments.map(
+    (appointment, index) => {
+      const interview = getInterview(state, appointment.interview)
 
+      return (
+        <Appointment 
+          {...appointment}
+          key={index}
+          interview={interview}
+          interviewers={interviewersForDay}
+          bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
+        />
+      )
+    }
+  )
 
 
   return (
@@ -116,20 +131,7 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map((appointment, index) => {
-          const interview = getInterview(state, appointment.interview)
-
-          return (
-            <Appointment 
-              {...appointment}
-              key={index}
-              interview={interview}
-              interviewers={interviewersForDay}
-              bookInterview={bookInterview}
-              cancelInterview={cancelInterview}
-            />
-          )
-        })}
+        {renderAppointments}
         <Appointment key="last" time= "5pm" />
 
       </section>
