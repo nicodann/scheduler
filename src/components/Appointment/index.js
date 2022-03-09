@@ -15,21 +15,27 @@ const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING = "DELETING"
   
-function Appointment(props) {
+function Appointment({ interview, 
+                      interviewers, 
+                      student, 
+                      id, 
+                      bookInterview, 
+                      cancelInterview, 
+                      time }) {
   
   const { mode, transition, back } = useVisualMode(
-    props.interview ? SHOW : EMPTY
+    interview ? SHOW : EMPTY
     );
 
   useEffect(() => {
     console.log('mode: ', mode)
-    if (props.interview && mode === EMPTY) {
+    if (interview && mode === EMPTY) {
       transition(SHOW);
     }
-    if (props.interview === null && mode === SHOW) {
+    if (interview === null && mode === SHOW) {
       transition(EMPTY);
     }
-  }, [props.interview, transition, mode ]);
+  }, [interview, transition, mode ]);
 
   
   function save(name, interviewer) {
@@ -40,18 +46,18 @@ function Appointment(props) {
 
     transition(SAVING);
     
-    props.bookInterview(props.id, interview, () => transition(SHOW))
+    bookInterview(id, interview, () => transition(SHOW))
   };
 
   function deleteApp() {
     console.log('delete App')
     transition(DELETING)
-    props.cancelInterview(props.id, () => transition(EMPTY));
+    cancelInterview(id, () => transition(EMPTY));
 
   }
 
   const renderHeader = (
-    <Header time={props.time}/>
+    <Header time={time}/>
   )
 
   const renderEmpty = (
@@ -60,16 +66,16 @@ function Appointment(props) {
 
   const renderShow = (
     <Show 
-      student={props.interview && props.interview.student} 
-      interviewer={props.interview && props.interview.interviewer}
+      student={interview && interview.student} 
+      interviewer={interview && interview.interviewer}
       confirmDelete={() => transition(CONFIRM)}
     />
   )
 
   const renderForm =  (
     <Form
-      student={props.student}
-      interviewers={props.interviewers}
+      student={student}
+      interviewers={interviewers}
       onSave={save}
       onCancel={() => back()}
     />

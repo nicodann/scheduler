@@ -1,13 +1,13 @@
 import React from 'react'
 
-function Show(props) {
+function Show({ student, interviewer, onEdit, confirmDelete }) {
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
-        <h2 className="text--regular">{props.student}</h2>
+        <h2 className="text--regular">{student}</h2>
         <section className="interviewer">
           <h4 className="text--light">Interviewer</h4>
-          <h3 className="text--regular">{props.interviewer && props.interviewer.name}</h3>
+          <h3 className="text--regular">{interviewer && interviewer.name}</h3>
         </section>
       </section>
       <section className="appointment__card-right">
@@ -16,14 +16,14 @@ function Show(props) {
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
-            onClick={props.onEdit}
+            onClick={onEdit}
 
           />
           <img
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"
-            onClick={props.confirmDelete}
+            onClick={confirmDelete}
           />
         </section>
       </section>
