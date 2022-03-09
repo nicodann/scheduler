@@ -3,6 +3,7 @@
   import classNames from 'classnames';
   
   function InterviewerListItem({selected, setInterviewer, avatar, name}) {
+    console.log('selected: ', selected)
 
     const interviewerClass = classNames({
       'interviewers__item': true,

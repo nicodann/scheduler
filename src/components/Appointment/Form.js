@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState} from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
 
 
-function Form({ studentName, chosenInterviewer, interviewers, onCancel, onSave }) {
+function Form({ studentName, interviewerID, interviewers, onCancel, onSave }) {
+
+  console.log('student: ', studentName)
+  console.log('selectedInterviewer: ', interviewerID)
+
   const [student, setStudent] = useState(studentName || "");
-  const [interviewer, setInterviewer] = useState(chosenInterviewer || null);
+  const [interviewer, setInterviewer] = useState(interviewerID || null);
+
+  useEffect(() => {
+    console.log('stateInterviewer: ', interviewer)
+    console.log('statStudent: ', student)
+    
+  })
+
   const reset = () => {
     setStudent("");
     setInterviewer(null);
@@ -16,6 +27,7 @@ function Form({ studentName, chosenInterviewer, interviewers, onCancel, onSave }
     reset();
     onCancel();
   }
+  
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -29,9 +41,9 @@ function Form({ studentName, chosenInterviewer, interviewers, onCancel, onSave }
             onChange={(event) => setStudent(event.target.value)}
           />
         </form>
-        <InterviewerList 
+        <InterviewerList
           interviewers={interviewers}
-          value={interviewer}
+          stateInterviewerID={interviewer}
           onChange={setInterviewer}
         />
       </section>

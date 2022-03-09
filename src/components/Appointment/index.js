@@ -14,8 +14,9 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING = "DELETING"
+const EDIT = "EDIT";
   
-function Appointment({ interview, 
+function Appointment({interview, 
                       interviewers, 
                       student, 
                       id, 
@@ -69,13 +70,15 @@ function Appointment({ interview,
       student={interview && interview.student} 
       interviewer={interview && interview.interviewer}
       confirmDelete={() => transition(CONFIRM)}
+      onEdit={() => transition(EDIT)}
     />
   )
 
   const renderForm =  (
     <Form
-      student={student}
+      studentName={interview && interview.student}
       interviewers={interviewers}
+      interviewerID={interview && interview.interviewer.id}
       onSave={save}
       onCancel={() => back()}
     />
@@ -94,6 +97,7 @@ function Appointment({ interview,
       {mode === CREATE && renderForm}
       {mode === CONFIRM && renderConfirm}
       {(mode === SAVING || mode === DELETING) && renderStatus}
+      {mode === EDIT && renderForm}
     </article>
   )
   
