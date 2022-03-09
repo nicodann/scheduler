@@ -49,7 +49,9 @@ export default function Application() {
   //   console.log('state: ',state)
   // }, [state])
 
-  function bookInterview(id, interview, cbSAVE, cbERROR) {
+
+  //CREATE APPOINTMENT
+  function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -58,24 +60,17 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment
     };
-
-    axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
+    return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
       .then(response => {
         if (response.status === 204) {
           setState(prev => ({...prev, appointments}))
         }
+        return response;
       })
-      .then(() => {
-        console.log('the API has been updated')
-        cbSAVE()
-      })
-      .catch(() => {
-        console.log('error')
-        cbERROR()
-      });
   }
-
-  function cancelInterview(id, cbSAVE, cbERROR) {
+  
+  //DELETE APPOINTMENT
+  function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -84,19 +79,19 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment
     }
-    console.log('cancel Interview');
-    axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    
+     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(response => {
-        console.log('status: ',response.status)
         if (response.status === 204) {
           setState(prev => ({...prev, appointments}))
-          console.log('the appointment has been deleted')
         }
+        return response;
       })
-      .then(() => cbSAVE())
-      .catch(() => cbERROR())
-      
   }
+
+
+
+
 
   return (
     <main className="layout">

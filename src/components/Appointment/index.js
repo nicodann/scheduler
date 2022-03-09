@@ -19,12 +19,14 @@ const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
   
-function Appointment({interview, 
-                      interviewers, 
-                      id, 
-                      bookInterview, 
-                      cancelInterview, 
-                      time }) {
+function Appointment({
+  interview, 
+  interviewers, 
+  id, 
+  bookInterview, 
+  cancelInterview, 
+  time 
+  }) {
   
   const { mode, transition, back } = useVisualMode(
     interview ? SHOW : EMPTY
@@ -47,13 +49,17 @@ function Appointment({interview,
       interviewer
     };
     transition(SAVING);
-    bookInterview(id, interview, () => transition(SHOW), () => transition(ERROR_SAVE, true))
+    bookInterview(id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE, true));
   };
 
   //DELETE APPOINTMENT FUNCTION
   function deleteApp() {
     transition(DELETING, true)
-    cancelInterview(id, () => transition(EMPTY), () => transition(ERROR_DELETE, true));
+    cancelInterview(id)
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   //COMPONENT VARIABLES
