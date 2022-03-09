@@ -15,6 +15,8 @@ const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING = "DELETING"
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
   
 function Appointment({interview, 
                       interviewers, 
@@ -47,13 +49,13 @@ function Appointment({interview,
 
     transition(SAVING);
     
-    bookInterview(id, interview, () => transition(SHOW))
+    bookInterview(id, interview, () => transition(SHOW), () => transition(ERROR_SAVE))
   };
 
   function deleteApp() {
     console.log('delete App')
     transition(DELETING)
-    cancelInterview(id, () => transition(EMPTY));
+    cancelInterview(id, () => transition(EMPTY), () => transition(ERROR_DELETE));
 
   }
 

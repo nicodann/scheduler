@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState} from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
@@ -7,17 +7,8 @@ import Button from 'components/Button';
 
 function Form({ studentName, interviewerID, interviewers, onCancel, onSave }) {
 
-  console.log('student: ', studentName)
-  console.log('selectedInterviewer: ', interviewerID)
-
   const [student, setStudent] = useState(studentName || "");
   const [interviewer, setInterviewer] = useState(interviewerID || null);
-
-  useEffect(() => {
-    console.log('stateInterviewer: ', interviewer)
-    console.log('statStudent: ', student)
-    
-  })
 
   const reset = () => {
     setStudent("");

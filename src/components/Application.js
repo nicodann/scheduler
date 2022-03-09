@@ -49,7 +49,7 @@ export default function Application() {
   //   console.log('state: ',state)
   // }, [state])
 
-  function bookInterview(id, interview, cb) {
+  function bookInterview(id, interview, cbSAVE, cbERROR) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -67,12 +67,12 @@ export default function Application() {
       })
       .then(() => {
         console.log('the API has been updated')
-        cb()
+        cbSAVE()
       })
-      .catch(err => console.log(err));
+      .catch(() => cbERROR);
   }
 
-  function cancelInterview(id, cb) {
+  function cancelInterview(id, cbSAVE, cbERROR) {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -90,7 +90,8 @@ export default function Application() {
           console.log('the appointment has been deleted')
         }
       })
-      .then(() => cb())
+      .then(() => cbSAVE())
+      .catch(() => cbERROR())
       
   }
 
