@@ -72,7 +72,27 @@ export default function Application() {
       .catch(err => console.log(err));
   }
 
-  const
+  function cancelInterview(id, cb) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+    console.log('cancel Interview');
+    axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(response => {
+        console.log('status: ',response.status)
+        if (response.status === 204) {
+          setState(prev => ({...prev, appointments}))
+          console.log('the appointment has been deleted')
+        }
+      })
+      .then(() => cb())
+      
+  }
 
   return (
     <main className="layout">
@@ -107,6 +127,7 @@ export default function Application() {
               interview={interview}
               interviewers={interviewersForDay}
               bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           )
         })}
