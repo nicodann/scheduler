@@ -30,6 +30,33 @@ export default function useApplicationData() {
     .catch(err => console.log(err))
   }, []);
 
+  const createDaysWithUpdatedSpots = (add) => {
+
+    const stateDayObj = state.days.find(day => day.name === state.day);
+    const index = state.days.indexOf(stateDayObj)
+    const dayCopy = {
+      ...stateDayObj
+    }
+    let updatedDay = {}
+
+    if (add === true) {
+      updatedDay = {
+        ...dayCopy, 
+        spots: dayCopy.spots + 1
+      }
+    } else {
+      updatedDay = {
+        ...dayCopy, 
+        spots: dayCopy.spots - 1
+      }
+    }
+
+    const days = [...state.days]
+    days[index] = updatedDay
+
+    return days;
+  }
+
 
   //CREATE APPOINTMENT
   const bookInterview = (id, interview) => {
@@ -43,20 +70,8 @@ export default function useApplicationData() {
     };
 
     //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
-    const stateDayObj = state.days.find(day => day.name === state.day);
-    const index = state.days.indexOf(stateDayObj)
-
-    const dayCopy = {
-      ...stateDayObj
-    }
-    const updatedDay = {
-      ...dayCopy, 
-      spots: dayCopy.spots -1
-    }
-
-    const days = [...state.days]
-
-    days[index] = updatedDay
+    const days = createDaysWithUpdatedSpots(false);
+    
     
      return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
       .then(response => {
@@ -80,20 +95,8 @@ export default function useApplicationData() {
     }
 
      //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
-     const stateDayObj = state.days.find(day => day.name === state.day);
-     const index = state.days.indexOf(stateDayObj)
- 
-     const dayCopy = {
-       ...stateDayObj
-     }
-     const updatedDay = {
-       ...dayCopy, 
-       spots: dayCopy.spots + 1
-     }
- 
-     const days = [...state.days]
- 
-     days[index] = updatedDay
+     const days = createDaysWithUpdatedSpots(true);
+    
     
      return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(response => {
