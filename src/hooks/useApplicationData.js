@@ -41,7 +41,8 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    
+
+    //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
     const stateDayObj = state.days.find(day => day.name === state.day);
     const index = state.days.indexOf(stateDayObj)
 
@@ -54,12 +55,8 @@ export default function useApplicationData() {
     }
 
     const days = [...state.days]
-    console.log('equal: ?',days === state.days)
 
     days[index] = updatedDay
-
-    console.log('state.days ',state.days )
-    console.log('days ',days )
     
      return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
       .then(response => {
@@ -81,11 +78,28 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
+
+     //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
+     const stateDayObj = state.days.find(day => day.name === state.day);
+     const index = state.days.indexOf(stateDayObj)
+ 
+     const dayCopy = {
+       ...stateDayObj
+     }
+     const updatedDay = {
+       ...dayCopy, 
+       spots: dayCopy.spots + 1
+     }
+ 
+     const days = [...state.days]
+ 
+     days[index] = updatedDay
     
      return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(response => {
         if (response.status === 204) {
           setState(prev => ({...prev, appointments}))
+          setState(prev => ({...prev, days}))
         }
         return response;
       })
