@@ -42,21 +42,21 @@ export default function useApplicationData() {
       [id]: appointment
     };
     
-    const thisDay = state.days.find(day => day.name === state.day);
-    const index = state.days.indexOf(thisDay)
+    const stateDayObj = state.days.find(day => day.name === state.day);
+    const index = state.days.indexOf(stateDayObj)
 
-    const day = {
-      ...thisDay
+    const dayCopy = {
+      ...stateDayObj
     }
-    const newDay = {
-      ...day, 
-      spots: day.spots -1
+    const updatedDay = {
+      ...dayCopy, 
+      spots: dayCopy.spots -1
     }
 
     const days = [...state.days]
     console.log('equal: ?',days === state.days)
 
-    days[index] = newDay
+    days[index] = updatedDay
 
     console.log('state.days ',state.days )
     console.log('days ',days )
