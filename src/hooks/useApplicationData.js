@@ -37,18 +37,12 @@ export default function useApplicationData() {
     const dayCopy = {
       ...stateDayObj
     }
-    let updatedDay = {}
+    // let updatedDay = {}
+    let newSpots = (add ? dayCopy.spots + 1 : dayCopy.spots - 1)
 
-    if (add === true) {
-      updatedDay = {
-        ...dayCopy, 
-        spots: dayCopy.spots + 1
-      }
-    } else {
-      updatedDay = {
-        ...dayCopy, 
-        spots: dayCopy.spots - 1
-      }
+    const updatedDay = {
+      ...dayCopy, 
+      spots: newSpots
     }
 
     const days = [...state.days]
