@@ -7,6 +7,7 @@ import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
 import Error from './Error';
+import ErrorMissingInfo from './ErrorMissingInfo';
 import useVisualMode from 'hooks/useVisualMode';
 
 const EMPTY = "EMPTY";
@@ -18,6 +19,7 @@ const DELETING = "DELETING"
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_SAVE_MISSINGINFO = "ERROR_SAVE_MISSINGINFO"
   
 function Appointment({
   interview, 
@@ -45,7 +47,7 @@ function Appointment({
   //SAVE APPOINTMENT FUNCTION
   function save(name, interviewer) {
     if (!interviewer || !name) {
-      transition(ERROR_SAVE);
+      transition(ERROR_SAVE_MISSINGINFO);
       return;
     }
     const interview = {
@@ -102,6 +104,8 @@ function Appointment({
 
   const renderError = (<Error onClose={back} />)
 
+  const renderErrorMissingInfo = (<ErrorMissingInfo onClose={back}/>)
+
   return (
     <article className="appointment">
       {renderHeader}
@@ -112,6 +116,7 @@ function Appointment({
       {(mode === SAVING || mode === DELETING) && renderStatus}
       {mode === EDIT && renderForm}
       {(mode === ERROR_SAVE || mode === ERROR_DELETE) && renderError}
+      {mode === ERROR_SAVE_MISSINGINFO && renderErrorMissingInfo}
     </article>
   )
   

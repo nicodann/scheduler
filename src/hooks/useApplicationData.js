@@ -40,7 +40,6 @@ export default function useApplicationData() {
     const appDetailsArray = appIDArray.map(id => appointments[id])
 
     let newSpots = appDetailsArray.filter(app => app.interview === null).length
-    console.log('newSpots: ', newSpots)
 
     const stateDayObj = state.days.find(day => day.name === state.day);
     const index = state.days.indexOf(stateDayObj)
@@ -54,11 +53,11 @@ export default function useApplicationData() {
     }
 
     const days = [...state.days]
+
     days[index] = updatedDay
 
     return days;
   }
-
 
   //CREATE APPOINTMENT
   const bookInterview = (id, interview) => {
@@ -70,12 +69,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    
-    
     return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
     .then(response => {
       if (response.status === 204) {
-        console.log('set state with new app')
         setState(prev => ({...prev, appointments}))
         const days = createDaysWithUpdatedSpots(appointments)
         setState(prev => ({...prev, days}))
@@ -83,9 +79,6 @@ export default function useApplicationData() {
       }
     })
   };
-
-
-
 
   //DELETE APPOINTMENT
   const cancelInterview = (id) => {
@@ -97,7 +90,6 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
-     
      return axios.delete(`http://localhost:8001/api/appointments/${id}`)
      .then(response => {
        if (response.status === 204) {
@@ -107,9 +99,7 @@ export default function useApplicationData() {
          return response;
         }
       })
-       
   };
 
   return { state, setDay, bookInterview, cancelInterview }
-
 }
