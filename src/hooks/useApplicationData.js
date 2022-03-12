@@ -28,17 +28,25 @@ export default function useApplicationData() {
       setInterviewers(all[2].data);
     })
     .catch(err => console.log(err))
-  }, []);
+  }, []);  
 
-  const createDaysWithUpdatedSpots = (add) => {
+  const createDaysWithUpdatedSpots = (appointments) => {
+    let appIDArray = []
+    const matchingDay = state.days.filter(weekDay => weekDay.name === state.day)
+    if (matchingDay.length !== 0) {
+      appIDArray = matchingDay[0].appointments
+    }
+    
+    const appDetailsArray = appIDArray.map(id => appointments[id])
+
+    let newSpots = appDetailsArray.filter(app => app.interview === null).length
+    console.log('newSpots: ', newSpots)
 
     const stateDayObj = state.days.find(day => day.name === state.day);
     const index = state.days.indexOf(stateDayObj)
     const dayCopy = {
       ...stateDayObj
     }
-    // let updatedDay = {}
-    let newSpots = (add ? dayCopy.spots + 1 : dayCopy.spots - 1)
 
     const updatedDay = {
       ...dayCopy, 
@@ -62,20 +70,22 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-
-    //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
-    const days = createDaysWithUpdatedSpots(false);
     
     
-     return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
-      .then(response => {
-        if (response.status === 204) {
-          setState(prev => ({...prev, appointments}))
-          setState(prev => ({...prev, days}))
-        }
+    return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
+    .then(response => {
+      if (response.status === 204) {
+        console.log('set state with new app')
+        setState(prev => ({...prev, appointments}))
+        const days = createDaysWithUpdatedSpots(appointments)
+        setState(prev => ({...prev, days}))
         return response;
-      })
+      }
+    })
   };
+
+
+
 
   //DELETE APPOINTMENT
   const cancelInterview = (id) => {
@@ -87,19 +97,17 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
-
-     //DEFINE NEW DAYS OBJECT WITH UPDATED SPOTS VALUE
-     const days = createDaysWithUpdatedSpots(true);
-    
-    
+     
      return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(response => {
-        if (response.status === 204) {
-          setState(prev => ({...prev, appointments}))
-          setState(prev => ({...prev, days}))
+     .then(response => {
+       if (response.status === 204) {
+         setState(prev => ({...prev, appointments}))
+         const days = createDaysWithUpdatedSpots(appointments)
+         setState(prev => ({...prev, days}))
+         return response;
         }
-        return response;
       })
+       
   };
 
   return { state, setDay, bookInterview, cancelInterview }

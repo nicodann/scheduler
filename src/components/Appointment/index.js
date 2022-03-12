@@ -44,6 +44,10 @@ function Appointment({
 
   //SAVE APPOINTMENT FUNCTION
   function save(name, interviewer) {
+    if (!interviewer || !name) {
+      transition(ERROR_SAVE);
+      return;
+    }
     const interview = {
       student: name,
       interviewer
@@ -84,7 +88,7 @@ function Appointment({
     <Form
       studentName={interview && interview.student}
       interviewers={interviewers}
-      interviewerID={interview && interview.interviewer.id}
+      interviewerID={interview && interview.interviewer && interview.interviewer.id}///Throwing error sometimes
       onSave={save}
       onCancel={() => back()}
     />

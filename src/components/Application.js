@@ -8,8 +8,8 @@ import useApplicationData from "hooks/useApplicationData";
 
 
 export default function Application() {
+  console.log(`--RENDER--`) ////RENDERING
   const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
-  console.log(`--RENDER--`)
   
   
 
@@ -37,7 +37,6 @@ export default function Application() {
       )
     }
   )
-
 
   return (
     <main className="layout">
