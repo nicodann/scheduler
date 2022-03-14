@@ -29,13 +29,18 @@ function Appointment({
   cancelInterview, 
   time 
   }) {
-  
-  const { mode, transition, back } = useVisualMode(
-    interview ? SHOW : EMPTY
-    );
+
+  console.log('---------------RENDERING APPOINTMENT', id)
+  // console.log('-------interviewbeforeUseVisual: ', interview)
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+  // console.log('modeBefore useEffect: ', mode)
 
   useEffect(() => {
-    console.log('mode: ', mode)
+    console.log('mode:', mode)
+  }, [mode])
+
+      
+  useEffect(() => {
     if (interview && mode === EMPTY) {
       transition(SHOW);
     }
@@ -90,7 +95,7 @@ function Appointment({
     <Form
       studentName={interview && interview.student}
       interviewers={interviewers}
-      interviewerID={interview && interview.interviewer && interview.interviewer.id}///Throwing error sometimes
+      interviewerID={interview && interview.interviewer && interview.interviewer.id}
       onSave={save}
       onCancel={() => back()}
     />
@@ -119,6 +124,7 @@ function Appointment({
       {mode === ERROR_SAVE_MISSINGINFO && renderErrorMissingInfo}
     </article>
   )
+  
   
 }
   

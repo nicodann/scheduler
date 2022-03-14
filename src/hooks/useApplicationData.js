@@ -39,7 +39,7 @@ export default function useApplicationData() {
     
     const appDetailsArray = appIDArray.map(id => appointments[id])
 
-    let newSpots = appDetailsArray.filter(app => app.interview === null).length
+    const newSpots = appDetailsArray.filter(app => app.interview === null).length
 
     const stateDayObj = state.days.find(day => day.name === state.day);
     const index = state.days.indexOf(stateDayObj)

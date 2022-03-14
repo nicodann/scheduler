@@ -8,7 +8,7 @@ import useApplicationData from "hooks/useApplicationData";
 
 
 export default function Application() {
-  console.log(`--RENDER--`) ////RENDERING
+  console.log(`---------------------RENDER--------------------------`) ////RENDERING
   const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
   
   
@@ -22,13 +22,15 @@ export default function Application() {
 
 
   const renderAppointments = dailyAppointments.map(
-    (appointment, index) => {
+    (appointment) => {
+      // console.log('rendering appointment')
       const interview = getInterview(state, appointment.interview)
+      console.log('interview: ', interview)
 
       return (
         <Appointment 
           {...appointment}
-          key={index}
+          key={appointment.id}
           interview={interview}
           interviewers={interviewersForDay}
           bookInterview={bookInterview}
