@@ -30,14 +30,7 @@ function Appointment({
   time 
   }) {
 
-  console.log('---------------RENDERING APPOINTMENT', id)
-  // console.log('-------interviewbeforeUseVisual: ', interview)
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
-  // console.log('modeBefore useEffect: ', mode)
-
-  useEffect(() => {
-    console.log('mode:', mode)
-  }, [mode])
 
       
   useEffect(() => {
