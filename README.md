@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+A React App to schedule and delete daily interviews.
+
 ## Setup
 
 Install dependencies with `npm install`.
