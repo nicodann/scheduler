@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState} from 'react';
+import React, { useState } from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
@@ -11,16 +10,6 @@ function Form({ studentName, interviewerID, interviewers, onCancel, onSave }) {
   const [interviewer, setInterviewer] = useState(interviewerID || null);
   const [error, setError] = useState("");
 
-  
-  function validate(name) {
-    if (name === "") {
-      setError("Student name cannot be blank");
-      return;
-    }
-
-    onSave(name, interviewer);
-  }
-
   const reset = () => {
     setStudent("");
     setInterviewer(null);
@@ -30,7 +19,15 @@ function Form({ studentName, interviewerID, interviewers, onCancel, onSave }) {
     onCancel();
   }
 
-  
+  function validate() {
+    if (student === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+
+    setError("")
+    onSave(student, interviewer);
+  }
   
   return (
     <main className="appointment__card appointment__card--create">
@@ -56,7 +53,7 @@ function Form({ studentName, interviewerID, interviewers, onCancel, onSave }) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={() => validate(student)}>Save</Button>
+          <Button confirm onClick={() => validate()}>Save</Button>
         </section>
       </section>
     </main>

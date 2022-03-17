@@ -44,10 +44,11 @@ function Appointment({
 
   //SAVE APPOINTMENT FUNCTION
   function save(name, interviewer) {
-    if (!interviewer) {
-      transition(ERROR_SAVE_MISSINGINFO);
-      return;
-    }
+    // INTERVIEWER MISSING ERROR: REMOVED FOR TESTING ASSIGNMENTS
+    // if (!interviewer) {
+    //   transition(ERROR_SAVE_MISSINGINFO);
+    //   return;
+    // }
     const interview = {
       student: name,
       interviewer
