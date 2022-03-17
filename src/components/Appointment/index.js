@@ -44,7 +44,7 @@ function Appointment({
 
   //SAVE APPOINTMENT FUNCTION
   function save(name, interviewer) {
-    if (!interviewer || !name) {
+    if (!interviewer) {
       transition(ERROR_SAVE_MISSINGINFO);
       return;
     }
