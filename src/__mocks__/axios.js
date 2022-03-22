@@ -53,19 +53,23 @@ const fixtures = {
   }
 };
 
-export default {
-  get: jest.fn(url => (
-    Promise.resolve({
-      status: 200,
-      statusText: "OK",
-      data: {
-        "/api/days": "days",
-        "/api/appointments": "appointments",
-        "/api/interviewers": "intervewiers"
-      }[url]
-    })
-  ))
-}
+// //REFACTOR 2
+
+// export default {
+//   get: jest.fn(url => (
+//     Promise.resolve({
+//       status: 200,
+//       statusText: "OK",
+//       data: {
+//         "/api/days": "days",
+//         "/api/appointments": "appointments",
+//         "/api/interviewers": "intervewiers"
+//       }[url]
+//     })
+//   ))
+// }
+
+//REFACTOR 1
 
 // export default {
 //   get: jest.fn(url => {
@@ -84,29 +88,35 @@ export default {
 //   })
 // }
 
-// if (url === "/api/days") {
-    //   return Promise.resolve({
-    //     status: 200,
-    //     statusText: "OK",
-    //     data: fixtures.days
-    //   });
-    // }
+//ORIGINAL
+export default {
 
-    // if (url === "/api/appointments") {
-    //   /* Resolve appointments data */
-    //   return Promise.resolve({
-    //     status: 200,
-    //     statusText: "OK",
-    //     data: fixtures.appointments
-    //   });
-    // }
+   get: jest.fn(url => { 
+     if (url === "/api/days") {
+        return Promise.resolve({
+          status: 200,
+          statusText: "OK",
+          data: fixtures.days
+        });
+      }
 
-    // if (url === "/api/interviewers") {
-    //   /* Resolve interviewers data */
-    //   return Promise.resolve({
-    //     status: 200,
-    //     statusText: "OK",
-    //     data: fixtures.interviewers
-    //   });
-    // }
-    ////
+    if (url === "/api/appointments") {
+      /* Resolve appointments data */
+      return Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: fixtures.appointments
+      });
+    }
+
+    if (url === "/api/interviewers") {
+      /* Resolve interviewers data */
+      return Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: fixtures.interviewers
+      });
+    }
+  })
+};
+  

@@ -4,6 +4,8 @@ import { render, cleanup, waitForElement } from "@testing-library/react";
 
 import Application from "components/Application";
 
+import axios from "../../__mocks__/axios"
+
 afterEach(cleanup);
 
 // IT RENDERS
@@ -12,6 +14,7 @@ xit("renders without crashing", () => {
 });
 
 it("defaults to Monday and changes the schedule when a new day is selected", () => {
+  // axios.get()
   const { getByText } = render(<Application />);
 
   return waitForElement(() => getByText("Monday"));
