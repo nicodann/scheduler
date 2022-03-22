@@ -53,71 +53,17 @@ const fixtures = {
   }
 };
 
-// //REFACTOR 2
-
-// export default {
-//   get: jest.fn(url => (
-//     Promise.resolve({
-//       status: 200,
-//       statusText: "OK",
-//       data: {
-//         "/api/days": "days",
-//         "/api/appointments": "appointments",
-//         "/api/interviewers": "intervewiers"
-//       }[url]
-//     })
-//   ))
-// }
-
-//REFACTOR 1
-
-// export default {
-//   get: jest.fn(url => {
-    
-//     const urls = {
-//       "/api/days": "days",
-//       "/api/appointments": "appointments",
-//       "/api/interviewers": "intervewiers"
-//     };
-
-//     return Promise.resolve({
-//       status: 200,
-//       statusText: "OK",
-//       data: fixtures[url]
-//     });
-//   })
-// }
-
-//ORIGINAL
 export default {
-  // defaults: { baseURL: "" }, //this didn't work
-   
-  get: jest.fn(url => { 
-    if (url === "http://localhost:8001/api/days") {
-      return Promise.resolve({
-        status: 200,
-        statusText: "OK",
-        data: fixtures.days
-      });
-    }
+  get: jest.fn(url => {
 
-    if (url === "http://localhost:8001/api/appointments") {
-      /* Resolve appointments data */
-      return Promise.resolve({
-        status: 200,
-        statusText: "OK",
-        data: fixtures.appointments
-      });
-    }
-
-    if (url === "http://localhost:8001/api/interviewers") {
-      /* Resolve interviewers data */
-      return Promise.resolve({
-        status: 200,
-        statusText: "OK",
-        data: fixtures.interviewers
-      });
-    }
+    return Promise.resolve({
+      status: 200,
+      statusText: "OK",
+      data: fixtures[({
+        "http://localhost:8001/api/days": 'days',
+        "http://localhost:8001/api/appointments": 'appointments',
+        "http://localhost:8001/api/interviewers": 'interviewers'
+      }[url])]
+    });
   })
-};
-  
+}
