@@ -96,14 +96,16 @@ function Appointment({
   )
 
   const renderConfirm = (
-    <Confirm onCancel={back} onConfirm={deleteApp}/>
+    <Confirm onCancel={back} onConfirm={deleteApp} message={"Are you sure you want to delete?"}/>
   )
 
   const renderStatusSaving = (<Status message={"Saving"} />)
 
   const renderStatusDeleting = (<Status message={"Deleting"}/>)
 
-  const renderError = (<Error onClose={back} />)
+  const renderErrorSave = (<Error onClose={back} message={"Cannot Save"}/>)
+  
+  const renderErrorDelete = (<Error onClose={back} message={"Cannot Delete"}/>)
 
   const renderErrorMissingInfo = (<ErrorMissingInfo onClose={back}/>)
 
@@ -117,7 +119,8 @@ function Appointment({
       {mode === SAVING && renderStatusSaving}
       {mode === DELETING && renderStatusDeleting}
       {mode === EDIT && renderForm}
-      {(mode === ERROR_SAVE || mode === ERROR_DELETE) && renderError}
+      {mode === ERROR_SAVE && renderErrorSave}
+      {mode === ERROR_DELETE && renderErrorDelete}
       {mode === ERROR_SAVE_MISSINGINFO && renderErrorMissingInfo}
     </article>
   )
