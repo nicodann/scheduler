@@ -99,7 +99,9 @@ function Appointment({
     <Confirm onCancel={back} onConfirm={deleteApp}/>
   )
 
-  const renderStatus = (<Status />)
+  const renderStatusSaving = (<Status message={"Saving"} />)
+
+  const renderStatusDeleting = (<Status message={"Deleting"}/>)
 
   const renderError = (<Error onClose={back} />)
 
@@ -112,7 +114,8 @@ function Appointment({
       {mode === SHOW && renderShow}
       {mode === CREATE && renderForm}
       {mode === CONFIRM && renderConfirm}
-      {(mode === SAVING || mode === DELETING) && renderStatus}
+      {mode === SAVING && renderStatusSaving}
+      {mode === DELETING && renderStatusDeleting}
       {mode === EDIT && renderForm}
       {(mode === ERROR_SAVE || mode === ERROR_DELETE) && renderError}
       {mode === ERROR_SAVE_MISSINGINFO && renderErrorMissingInfo}
