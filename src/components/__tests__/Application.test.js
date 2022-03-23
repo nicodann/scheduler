@@ -1,36 +1,58 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText } from "@testing-library/react";
 
 import Application from "components/Application";
 
 afterEach(cleanup);
 
-// IT RENDERS
-xit("renders without crashing", () => {
-  render(<Application />);
-});
 
-it("defaults to Monday and changes the schedule when a new day is selected", () => {
-  const { getByText } = render(<Application />);
+describe("Appliction", () => {//AXIOS FUNCTIONS
+  it("defaults to Monday and changes the schedule when a new day is selected", async () => {
+    const { getByText } = render(<Application />);
 
-  return waitForElement(() => getByText("Monday"))
-    .then(() => {
-      fireEvent.click(getByText('Tuesday'));
-      expect(getByText("Leopold Silvers")).toBeInTheDocument();
-    });
-});
+    await waitForElement(() => getByText("Monday"));
+        
+    fireEvent.click(getByText('Tuesday'));
 
-//AXIOS FUNCTIONS
+    expect(getByText("Leopold Silvers")).toBeInTheDocument();
+    
+  });
 
-//SCHEDULER CAN LOAD DATA
+  //SCHEDULER CAN LOAD DATA
+  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
+    const { container, debug } = render(<Application />)
 
-//ASYNCH TEST WAITS FOR COMPONENT TO UPDATE
+    await waitForElement(() => getByText(container, "Archie Cohen"))
 
-//USE CONTAINERS TO FIND SPECIFIC DOM NODES
+    const appointments = getAllByTestId(container, "appointment");
 
-//CHAIN PROMISES TO HANDLE ASYNCH TESTING
+    const appointment = appointments[0]
+    
+     
+    
+    fireEvent.click(getByAltText(appointment, "Add"));
 
-// OVERRIDE MOCK IMPLEMENTATIONS
+    fireEvent.change(getByPlaceholderText(appointment, /Enter Student Name/i), {
+      target: {value: "New Student"}
+    })
 
-//SETUP AND TEARDOWN FUNCITONS TO PERFORM COMMON TASKS
+    fireEvent.click(getByText(appointment, "Save"))
+
+    // console.log(prettyDOM(appointment, "Save"))
+
+    // debug()
+
+    expect(getByText(appointment, "Loading"));
+  });
+
+  //ASYNCH TEST WAITS FOR COMPONENT TO UPDATE
+
+  //USE CONTAINERS TO FIND SPECIFIC DOM NODES
+
+  //CHAIN PROMISES TO HANDLE ASYNCH TESTING
+
+  // OVERRIDE MOCK IMPLEMENTATIONS
+
+  //SETUP AND TEARDOWN FUNCITONS TO PERFORM COMMON TASKS
+})

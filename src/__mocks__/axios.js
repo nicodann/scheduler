@@ -65,5 +65,21 @@ export default {
         "http://localhost:8001/api/interviewers": 'interviewers'
       }[url])]
     });
+  }),
+
+  put: jest.fn(url => {
+
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+    });
+  }),
+
+  delete: jest.fn(url => {
+
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+    });
   })
 }

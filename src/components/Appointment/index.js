@@ -106,7 +106,7 @@ function Appointment({
   const renderErrorMissingInfo = (<ErrorMissingInfo onClose={back}/>)
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       {renderHeader}
       {mode === EMPTY && renderEmpty}      
       {mode === SHOW && renderShow}
