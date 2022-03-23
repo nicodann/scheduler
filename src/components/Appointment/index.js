@@ -7,7 +7,6 @@ import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
 import Error from './Error';
-import ErrorMissingInfo from './ErrorMissingInfo';
 import useVisualMode from 'hooks/useVisualMode';
 
 const EMPTY = "EMPTY";
@@ -107,8 +106,6 @@ function Appointment({
   
   const renderErrorDelete = (<Error onClose={back} message={"Cannot Delete"}/>)
 
-  const renderErrorMissingInfo = (<ErrorMissingInfo onClose={back}/>)
-
   return (
     <article className="appointment" data-testid="appointment">
       {renderHeader}
@@ -121,7 +118,6 @@ function Appointment({
       {mode === EDIT && renderForm}
       {mode === ERROR_SAVE && renderErrorSave}
       {mode === ERROR_DELETE && renderErrorDelete}
-      {mode === ERROR_SAVE_MISSINGINFO && renderErrorMissingInfo}
     </article>
   )
   
