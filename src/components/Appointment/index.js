@@ -18,7 +18,6 @@ const DELETING = "DELETING"
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
-const ERROR_SAVE_MISSINGINFO = "ERROR_SAVE_MISSINGINFO"
   
 function Appointment({
   interview, 
