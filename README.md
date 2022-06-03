@@ -31,4 +31,4 @@ npm run storybook
 ```
 ## Screenshots
 
-![Home Page](images/screenshots/Home_Page.png)
+![Home Page](https://github.com/nicodann/scheduler/blob/master/public/images/screenshots/Home_Page.png)
