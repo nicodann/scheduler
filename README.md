@@ -2,7 +2,13 @@
 
 A React App to schedule and delete daily interviews.
 
-## Setup
+## Download and Install Scheduler API
+
+- Fork and Clone the API repo [here](https://github.com/lighthouse-labs/scheduler-api).
+- Follow README.md for API installation details
+
+
+## Scheduler Client Setup
 
 Install dependencies with `npm install`.
 
@@ -23,3 +29,6 @@ npm test
 ```sh
 npm run storybook
 ```
+## Screenshots
+
+![Home Page](images/screenshots/Home_Page.png)
